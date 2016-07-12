@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		
+		
+		#stage{
+			width: 1000px;
+			height: 500px;
+			background: #ccc;
+			margin: 100px auto;
+			position: relative;
+			-webkit-perspective:800px;
+			-webkit-perspective-origin: center -25%;
+			border-radius: 3px;
+			box-shadow: 0 0 2px 1px rgba(0,0,0,0.5);
+		}
+		#container{
+			width: 200px;
+			height: 100px;
+			position: absolute;
+			top: 200px;
+			left: 50%;
+			margin-left: -100px;
+			-webkit-transform-style:preserve-3d;
+			-webkit-transition:transform 2s ease;
+		}
+		img{
+			width: 140px;
+			height: 100px;
+			position: absolute;
+			-webkit-transition:transform 2s ease;
+
+		}
+	</style>
+</head>
+<body>
+	<div id="stage">
+		<div id="container">
+	<!-- 		<img src="img/01.jpeg" alt="">
+			<img src="img/01.jpeg" alt="">
+			<img src="img/01.jpeg" alt="">
+			<img src="img/01.jpeg" alt="">
+			<img src="img/01.jpeg" alt="">
+			<img src="img/01.jpeg" alt="">	 -->		
+		</div>
+	</div>
+	<script>
+
+		(function(){
+			var oContainer = document.getElementById('container');
+			// var html = '';
+
+			var now = 0;//代表现在已加载的图片个数
+			for(var i=0; i<9; i++){
+				// html += '<img src="img/'+(i+1)+'.jpeg" style="-webkit-transform: rotateY('+i*40+'deg) translateZ(200px)"></img>'
+				var oImg = new Image();
+				oImg.onload = function(){
+					 now++;
+					 if (now == 9){//当图片全部加载完毕时
+					 	var aImg = oContainer.getElementsByTagName('img');
+					 	for(var i=0; i<aImg.length; i++){
+					 		(function(index){//闭包开始
+					 			 setTimeout(function() {
+					 			 	// console.log(index);
+					 			 	  aImg[index].style.WebkitTransform = 'rotateY('+index*40+'deg) translateZ(200px)' ;
+					 			 }, 100*(9-i));  
+					 		})(i);//闭包结束
+					 	}
+					 }
+				};
+				oImg.src = 'img/'+(i+1)+'.jpeg';//图片地址
+				oContainer.appendChild(oImg);//将图片插入到container中
+			}
+			// oContainer.innerHTML = html;
+
+
+			var index = 0;
+			oContainer.onclick = function() {
+				index++;
+				this.style.WebkitTransform = 'rotateY('+(-index*40)+'deg)';
+			};
+
+
+
+
+		})();
+	</script>
+</body>
+</html>
